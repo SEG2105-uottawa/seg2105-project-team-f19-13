@@ -10,26 +10,52 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 public class WelcomeActivity extends AppCompatActivity {
     Button logoutBtn;
-    EditText firstName;
     TextView welcomeText;
-    FirebaseAuth mFirebaseAuth;
-    private FirebaseAuth.AuthStateListener mAuthStateListener;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
+        final String uid;
+        FirebaseUser user;
 
-        firstName = findViewById(R.id.firstName);
-        String fName = firstName.getText().toString();
-        //String role = mySpinner.getSelectedItem().toString();
 
-        welcomeText = (TextView) findViewById(R.id.welcomeText);
-        welcomeText.setText("Welcome" + fName + "! You are logged-in as");
 
-        logoutBtn = findViewById(R.id.loginBtn);
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        uid = user.getUid();
+
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("User").child(uid);
+
+
+         reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                final String fName = dataSnapshot.child("fName").getValue(String.class);
+                final String role= dataSnapshot.child("role").getValue(String.class);
+
+                welcomeText = (TextView) findViewById(R.id.welcomeText);
+                welcomeText.setText("Welcome " + fName + "! You are logged-in as " + role);
+
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
+
+
+        logoutBtn = (Button)findViewById(R.id.logoutBtn);
 
         logoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
