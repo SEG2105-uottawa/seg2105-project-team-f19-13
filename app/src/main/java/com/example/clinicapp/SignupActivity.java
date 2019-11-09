@@ -5,10 +5,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,96 +20,118 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 
 public class SignupActivity extends AppCompatActivity {
     EditText emailText, passwordText,firstName, lastName, phoneNumber;
     Button SignupBtn;
-    TextView roleText;
-    FirebaseAuth mFireBaseAuth;
-
-
+    RadioButton employeeBtn, patientBtn;
+    private FirebaseAuth mFireBaseAuth;
+    DatabaseReference databaseReference;
+    String role= "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
 
-        Spinner mySpinner = (Spinner) findViewById(R.id.classRole);
 
-        ArrayAdapter<String> myAdapter = new ArrayAdapter<String>(SignupActivity.this,
-                android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.roles));
-        myAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        mySpinner.setAdapter(myAdapter);
+        emailText = (EditText) findViewById(R.id.emailText);
+        passwordText = (EditText) findViewById(R.id.passwordText);
+        firstName = (EditText) findViewById(R.id.firstName);
+        lastName = (EditText) findViewById(R.id.lastName);
+        phoneNumber = (EditText) findViewById(R.id.phoneNumber);
+        SignupBtn = (Button) findViewById(R.id.SignupBtn);
+        employeeBtn = (RadioButton) findViewById(R.id.employeeBtn);
+        patientBtn = (RadioButton) findViewById(R.id.patientBtn);
 
         mFireBaseAuth = FirebaseAuth.getInstance();
-        emailText = findViewById(R.id.emailText);
-        passwordText = findViewById(R.id.passwordText);
-        firstName = findViewById(R.id.firstName);
-        lastName = findViewById(R.id.lastName);
-        phoneNumber = findViewById(R.id.phoneNumber);
-        SignupBtn = findViewById(R.id.SignupBtn);
-        roleText = findViewById(R.id.roleText);
+        databaseReference = FirebaseDatabase.getInstance().getReference("User");
 
         SignupBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String email = emailText.getText().toString();
-                String password = passwordText.getText().toString();
-                String fName = firstName.getText().toString();
-                String lName = lastName.getText().toString();
-                String phoneNum = phoneNumber.getText().toString();
-                if(email.isEmpty()){
-                    emailText.setError("Please enter your email address");
-                    emailText.requestFocus();
+                final String email = emailText.getText().toString().trim();
+                final String password = passwordText.getText().toString().trim();
+                final String fName = firstName.getText().toString().trim();
+                final String lName = lastName.getText().toString().trim();
+                final String phoneNum = phoneNumber.getText().toString().trim();
+                if(employeeBtn.isChecked()){
+                    role = "Employee";
                 }
-                else if(password.isEmpty()){
-                    passwordText.setError("Please enter your password");
-                    passwordText.requestFocus();
+                if(patientBtn.isChecked()){
+                    role = "Patient";
                 }
-                else if(fName.isEmpty()){
-                    firstName.setError("Please enter your first name");
-                    firstName.requestFocus();
+                if(password.length()<6) {
+                    Toast.makeText(SignupActivity.this, "Password is too short", Toast.LENGTH_SHORT).show();
                 }
-                else if(lName.isEmpty()){
-                    lastName.setError("Please enter your last name");
-                    lastName.requestFocus();
+                if(TextUtils.isEmpty(email)){
+                    Toast.makeText(SignupActivity.this, "Please enter your email", Toast.LENGTH_SHORT).show();
                 }
-                else if(phoneNum.isEmpty()){
-                    phoneNumber.setError("Please enter your password");
-                    phoneNumber.requestFocus();
+                else if(TextUtils.isEmpty(password)){
+                    Toast.makeText(SignupActivity.this, "Please enter your password", Toast.LENGTH_SHORT).show();
                 }
-                else if(email.isEmpty() && password.isEmpty() && fName.isEmpty() && lName.isEmpty() && phoneNum.isEmpty()){
-                    Toast.makeText(SignupActivity.this,"Fields are empty!",Toast.LENGTH_SHORT).show();
+                else if(TextUtils.isEmpty(fName)){
+                    Toast.makeText(SignupActivity.this, "Please enter your first name", Toast.LENGTH_SHORT).show();
                 }
-                else if(!(email.isEmpty() && password.isEmpty() && fName.isEmpty() && lName.isEmpty() && phoneNum.isEmpty())){
+                else if(TextUtils.isEmpty(lName)){
+                    Toast.makeText(SignupActivity.this, "Please enter your last name", Toast.LENGTH_SHORT).show();
+                }
+                else if(TextUtils.isEmpty(phoneNum)){
+                    Toast.makeText(SignupActivity.this, "Please enter your phone number", Toast.LENGTH_SHORT).show();
+                }
+                else if(!(patientBtn.isChecked() || employeeBtn.isChecked())){
+                    Toast.makeText(SignupActivity.this, "Please select a role", Toast.LENGTH_SHORT).show();
+                }else {
                     mFireBaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(SignupActivity.this, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
-                            if(!task.isSuccessful()){
-                                Toast.makeText(SignupActivity.this,"SgnUp Unsuccessful, Please Try Again",Toast.LENGTH_SHORT).show();
+                            if (task.isSuccessful()) {
+                                User information = new User(fName, lName, email, phoneNum, password, role);
+                                FirebaseDatabase.getInstance().getReference("User").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(information).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        Toast.makeText(SignupActivity.this, "SignUp Complete", Toast.LENGTH_SHORT).show();
+                                        Intent i = new Intent(getApplicationContext(), WelcomeActivity.class);
+                                        startActivity(i);
+                                    }
+                                });
 
-                            }
-                            else{
-                                startActivity(new Intent(SignupActivity.this, WelcomeActivity.class));
                             }
                         }
                     });
                 }
-                else{
-                    Toast.makeText(SignupActivity.this,"Error Occured!",Toast.LENGTH_SHORT).show();
-                }
             }
         });
+    }
+    public static String toSHA256(String password){
+        try {
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            byte[] encodedhash = digest.digest(password.getBytes(StandardCharsets.UTF_8));
+            return toHexString(encodedhash);
+        } catch(NoSuchAlgorithmException e) {
+            return null;
+        }
+    }
 
-        SignupBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(SignupActivity.this, MainActivity.class);
-                startActivity(i);
-            }
-        });
-
-
-
+    private static String toHexString(byte[] hash) {
+        StringBuffer hexString = new StringBuffer();
+        for (int i = 0; i < hash.length; i++) {
+            String hex = Integer.toHexString(0xff & hash[i]);
+            if(hex.length() == 1) hexString.append('0');
+            hexString.append(hex);
+        }
+        return hexString.toString();
     }
 }

@@ -1,8 +1,4 @@
 <resources>
     <string name="app_name">ClinicApp</string>
-
-    <string-array name="roles">
-        <item>Employee</item>
-        <item>Patient</item>
-    </string-array>
+    <string name="title_activity_admin">AdminActivity</string>
 </resources>
