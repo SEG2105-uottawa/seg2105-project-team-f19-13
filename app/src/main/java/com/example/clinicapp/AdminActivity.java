@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import android.text.TextUtils;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -29,6 +30,7 @@ public class AdminActivity extends AppCompatActivity {
     Button addButton;
     ListView listViewServices;
     DatabaseReference databaseServices;
+
     List<Service> services;
 
 
@@ -61,5 +63,35 @@ public class AdminActivity extends AppCompatActivity {
                 return true;
             }
         });*/
+    }
+
+    private void updateServices(String id, String name, String role) {
+        DatabaseReference dR = FirebaseDatabase.getInstance().getReference("service").child(id);
+        Service service = new Service(id, name, role);
+        dR.setValue(service);
+        Toast.makeText(getApplicationContext(), "Service Updated", Toast.LENGTH_SHORT).show();
+    }
+
+    private boolean deleteService(String id) {
+        DatabaseReference dR = FirebaseDatabase.getInstance().getReference("service").child(id);
+        dR.removeValue();
+        Toast.makeText(getApplicationContext(), "Service Deleted", Toast.LENGTH_SHORT).show();
+        return true;
+    }
+
+    private void addService() {
+        String name = editTextServiceName.getText().toString().trim();
+        String role = editTextServiceRole.getText().toString().trim();
+        if(!TextUtils.isEmpty(name)){
+            String id = databaseServices.push().getKey();
+            Service product = new Service(id, name, role);
+            databaseServices.child(id).setValue(product);
+            editTextServiceName.setText("");
+            editTextServiceRole.setText("");
+            Toast.makeText(this, "Service added", Toast.LENGTH_SHORT).show();
+        }else{
+            Toast.makeText(this, "Please enter a service", Toast.LENGTH_SHORT).show();
+        }
+
     }
 }
