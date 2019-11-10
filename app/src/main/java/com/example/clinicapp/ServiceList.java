@@ -22,4 +22,23 @@ public class ServiceList extends ArrayAdapter<Service> {
     private Activity context;
     List<Service> services;
 
+    public ServiceList(Activity context, List<Service> services) {
+        super(context, R.layout.service_item_list, services);
+        this.context = context;
+        this.services = services;
+    }
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        LayoutInflater inflater = context.getLayoutInflater();
+        View listViewItem = inflater.inflate(R.layout.service_item_list, null, true);
+
+        TextView textViewServiceName = (TextView) listViewItem.findViewById(R.id.textViewServiceName);
+        TextView textViewServiceRole = (TextView) listViewItem.findViewById(R.id.textViewServiceRole);
+
+        Service service = services.get(position);
+        textViewServiceName.setText(service.getServiceName());
+        textViewServiceRole.setText(service.getServiceRole());
+        return listViewItem;
+    }
 }

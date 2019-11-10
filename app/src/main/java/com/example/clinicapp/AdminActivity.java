@@ -69,6 +69,27 @@ public class AdminActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        databaseServices.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                services.clear();
+                for(DataSnapshot postSnapshot: dataSnapshot.getChildren()){
+                    Service service = postSnapshot.getValue(Service.class);
+                    services.add(service);
+                }
+                ServiceList servicesAdapter = new ServiceList(AdminActivity.this, services);
+                listViewServices.setAdapter(servicesAdapter);
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
     private void showUpdateDeleteDialog(final String serviceId, String serviceName) {
 
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
