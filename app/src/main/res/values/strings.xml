@@ -1,7 +1,5 @@
 <resources>
     <string name="app_name">ClinicApp</string>
-<<<<<<< HEAD
+
     <string name="title_activity_admin">AdminActivity</string>
-=======
->>>>>>> c028a16997dbd35e5e643c48c81eec5d9a8f4acf
 </resources>
