@@ -30,7 +30,7 @@ public class Update extends AppCompatActivity {
     }
     private void updateService(String serviceName, String serviceRole){
         databaseReference = FirebaseDatabase.getInstance().getReference("Service").child(serviceName);
-        Service service = new Service ()
+        Service service = new Service ();
     }
 
 

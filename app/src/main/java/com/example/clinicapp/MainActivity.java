@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
                 String password = passwordText.getText().toString().trim();
                 if(TextUtils.isEmpty(email)){
                     Toast.makeText(MainActivity.this, "Please enter your email", Toast.LENGTH_SHORT).show();
-<<<<<<< HEAD
+
                 }
                 else if(TextUtils.isEmpty(password)){
                     Toast.makeText(MainActivity.this, "Please enter your password", Toast.LENGTH_SHORT).show();
@@ -54,11 +54,11 @@ public class MainActivity extends AppCompatActivity {
                 {
                     Intent x = new Intent(getApplicationContext(), AdminActivity.class);
                     startActivity(x);
-=======
+
                 }
                 else if(TextUtils.isEmpty(password)){
                     Toast.makeText(MainActivity.this, "Please enter your password", Toast.LENGTH_SHORT).show();
->>>>>>> c028a16997dbd35e5e643c48c81eec5d9a8f4acf
+
                 }
                 else if(!(TextUtils.isEmpty(email)&& TextUtils.isEmpty(password))) {
                     mFireBaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(MainActivity.this, new OnCompleteListener<AuthResult>() {
