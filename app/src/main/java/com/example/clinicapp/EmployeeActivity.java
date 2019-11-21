@@ -59,7 +59,7 @@ public class EmployeeActivity extends AppCompatActivity{
         serviceManage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent inToService = new Intent(EmployeeActivity.this, EmployeeService.class);
+                Intent inToService = new Intent(EmployeeActivity.this, EmployeeServiceView.class);
                 startActivity(inToService);
             }
         });
