@@ -14,9 +14,15 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseError;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class MainActivity extends AppCompatActivity {
     EditText emailText, passwordText;
@@ -38,10 +44,11 @@ public class MainActivity extends AppCompatActivity {
         mFireBaseAuth = FirebaseAuth.getInstance();
 
 
+
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String email = emailText.getText().toString().trim();
+                final String  email = emailText.getText().toString().trim();
                 String password = passwordText.getText().toString().trim();
                 if(TextUtils.isEmpty(email)){
                     Toast.makeText(MainActivity.this, "Please enter your email", Toast.LENGTH_SHORT).show();
@@ -65,8 +72,36 @@ public class MainActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
-                                Intent i = new Intent(getApplicationContext(), WelcomeActivity.class);
-                                startActivity(i);
+                                final String uid;
+                                FirebaseUser user;
+                                user = FirebaseAuth.getInstance().getCurrentUser();
+                                uid = user.getUid();
+                                DatabaseReference reference = FirebaseDatabase.getInstance().getReference("User").child(uid);
+
+                                reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        final String role= dataSnapshot.child("role").getValue(String.class);
+                                        System.out.println(role);
+                                        if(role.equals("Employee")){
+                                            Intent i = new Intent(MainActivity.this, ClinicRegistry.class);
+                                            startActivity(i);
+                                        }
+                                        else{
+                                            Intent in = new Intent(MainActivity.this, WelcomeActivity.class);
+                                            startActivity(in);
+                                        }
+
+
+                                    }
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+
+                                    }
+                                });
+
+
+
                             } else {
                                 Toast.makeText(MainActivity.this, "Login Failed", Toast.LENGTH_SHORT).show();
                             }
