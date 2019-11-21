@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
                                         final String role= dataSnapshot.child("role").getValue(String.class);
                                         System.out.println(role);
                                         if(role.equals("Employee")){
-                                            Intent i = new Intent(MainActivity.this, ClinicRegistry.class);
+                                            Intent i = new Intent(MainActivity.this, EmployeeActivity.class);
                                             startActivity(i);
                                         }
                                         else{

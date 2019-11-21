@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:orientation="vertical"
+    android:padding="30dp"
+    tools:context=".EmployeeActivity">
+
+    <TextView
+        android:id="@+id/employeeWelcome"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/addButton"
+        android:textAlignment="center" />
+
+    <Button
+        android:id="@+id/profileView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/button_rounded"
+        android:text="Make Clinic Profile"
+        android:textColor="#ffffff"
+        android:textSize="22sp" />
+    <Button
+        android:id="@+id/serviceManage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/button_rounded"
+        android:text="Manage Service"
+        android:textColor="#ffffff"
+        android:textSize="22sp" />
+    <Button
+        android:id="@+id/calendarManage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/button_rounded"
+        android:text="Manage Calender"
+        android:textColor="#ffffff"
+        android:textSize="22sp" />
+    <Button
+        android:id="@+id/logoutButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/button_rounded"
+        android:text="Logout"
+        android:textColor="#ffffff"
+        android:textSize="22sp" />
+
+</LinearLayout>

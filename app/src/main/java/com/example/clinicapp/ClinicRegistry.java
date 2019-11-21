@@ -80,6 +80,8 @@ public class ClinicRegistry extends AppCompatActivity {
                     user = FirebaseAuth.getInstance().getCurrentUser();
                     uid = user.getUid();
                     databaseReference.child(uid).child("clinicID").setValue(mGroupId);
+                    Intent inToEmployeeAcitvity = new Intent(ClinicRegistry.this, EmployeeActivity.class);
+                    startActivity(inToEmployeeAcitvity);
                 }
             }
         });
