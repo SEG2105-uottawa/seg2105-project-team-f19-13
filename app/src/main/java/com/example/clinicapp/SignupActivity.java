@@ -103,8 +103,33 @@ public class SignupActivity extends AppCompatActivity {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
                                         Toast.makeText(SignupActivity.this, "SignUp Complete", Toast.LENGTH_SHORT).show();
-                                        Intent i = new Intent(getApplicationContext(), WelcomeActivity.class);
-                                        startActivity(i);
+                                        final String uid;
+                                        FirebaseUser user;
+                                        user = FirebaseAuth.getInstance().getCurrentUser();
+                                        uid = user.getUid();
+                                        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("User").child(uid);
+
+                                        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                                final String role= dataSnapshot.child("role").getValue(String.class);
+                                                System.out.println(role);
+                                                if(role.equals("Employee")){
+                                                    Intent i = new Intent(SignupActivity.this, EmployeeActivity.class);
+                                                    startActivity(i);
+                                                }
+                                                else{
+                                                    Intent in = new Intent(SignupActivity.this, WelcomeActivity.class);
+                                                    startActivity(in);
+                                                }
+
+
+                                            }
+                                            @Override
+                                            public void onCancelled(DatabaseError databaseError) {
+
+                                            }
+                                        });
                                     }
                                 });
 

@@ -11,8 +11,11 @@
         android:theme="@style/AppTheme">
         <activity android:name=".AdminActivity" />
         <activity android:name=".ClinicRegistry" />
+        <activity android:name=".EmployeeActivity" />
         <activity android:name=".WelcomeActivity" />
         <activity android:name=".SignupActivity" />
+        <activity android:name=".Calender" />
+        <activity android:name=".EmployeeService" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
