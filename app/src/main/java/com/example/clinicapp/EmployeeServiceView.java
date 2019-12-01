@@ -21,8 +21,8 @@ import java.util.List;
 
 public class EmployeeServiceView extends AppCompatActivity {
     Button addServiceBtn, deleteServiceBtn;
-    DatabaseReference databaseReference;
-    List<Service> services;
+    DatabaseReference databaseReference, dbr;
+    List<Service> services, employeeservices;
     ListView adminListView, employeeListView;
 
     @Override
@@ -35,7 +35,9 @@ public class EmployeeServiceView extends AppCompatActivity {
         employeeListView = (ListView) findViewById(R.id.employeeListView);
 
         services = new ArrayList<>();
+        employeeservices = new ArrayList<>();
         databaseReference = FirebaseDatabase.getInstance().getReference("Service");
+        dbr = FirebaseDatabase.getInstance().getReference("ClinicService");
 
         addServiceBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,15 +65,15 @@ public class EmployeeServiceView extends AppCompatActivity {
 
             }
         });
-        databaseReference.addValueEventListener(new ValueEventListener() {
+        dbr.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                services.clear();
+                employeeservices.clear();
                 for(DataSnapshot postSnapshot: dataSnapshot.getChildren()){
                     Service service = postSnapshot.getValue(Service.class);
-                    services.add(service);
+                    employeeservices.add(service);
                 }
-                ServiceList servicesAdapter = new ServiceList(EmployeeServiceView.this, services);
+                ServiceList servicesAdapter = new ServiceList(EmployeeServiceView.this, employeeservices);
                 employeeListView.setAdapter(servicesAdapter);
             }
             @Override
