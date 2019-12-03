@@ -1,5 +1,6 @@
 package com.example.clinicapp;
 
+import android.icu.text.IDNA;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -69,9 +70,10 @@ public class ClinicRegistry extends AppCompatActivity {
                     clinic.setClinicAddress(caddresss);
                     clinic.setClinicPhoneNumber(cinsuranceType);
                     clinic.setPaymentMethod(cpaymenthMethod);
+                    clinic.setInsuranceType(cinsuranceType);
                     String mGroupId = databaseReference.push().getKey();
 
-                    databaseReference.push().setValue(clinic);
+                    databaseReference.child(mGroupId).child("Info").setValue(clinic);
                     Toast.makeText(ClinicRegistry.this, "Clinic Registry Complete", Toast.LENGTH_SHORT).show();
 
                     databaseReference = FirebaseDatabase.getInstance().getReference("User");
@@ -79,7 +81,7 @@ public class ClinicRegistry extends AppCompatActivity {
                     FirebaseUser user;
                     user = FirebaseAuth.getInstance().getCurrentUser();
                     uid = user.getUid();
-                    databaseReference.child(uid).child("clinicID").setValue(mGroupId);
+                    databaseReference.child("Employee").child(uid).child("clinicID").setValue(mGroupId);
                     Intent inToEmployeeAcitvity = new Intent(ClinicRegistry.this, EmployeeActivity.class);
                     startActivity(inToEmployeeAcitvity);
                 }

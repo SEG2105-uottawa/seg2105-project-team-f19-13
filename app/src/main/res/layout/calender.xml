@@ -35,21 +35,22 @@
 
     <TextView
         android:id="@+id/mondayTitle"
-        android:layout_width="130dp"
-        android:layout_height="42dp"
+        android:layout_width="80dp"
+        android:layout_height="41dp"
         android:layout_below="@+id/manageCalendar"
         android:layout_marginStart="0dp"
         android:layout_marginLeft="0dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="9dp"
         android:clickable="false"
         android:text="Monday"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textColor="#008577" />
+        android:textColor="#008577"
+        android:textSize="14sp" />
 
     <TextView
         android:id="@+id/mondayHour"
-        android:layout_width="90dp"
+        android:layout_width="100dp"
         android:layout_height="42dp"
         android:layout_alignTop="@+id/mondayTitle"
         android:layout_marginStart="11dp"
@@ -57,14 +58,14 @@
         android:layout_marginTop="0dp"
         android:layout_toEndOf="@+id/mondayTitle"
         android:layout_toRightOf="@+id/mondayTitle"
-        android:hint="9:00-17:00"
+        android:hint="09:00-17:00"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textColor="#008577"
         android:textSize="18sp" />
 
     <EditText
-        android:id="@+id/mondayEdit"
-        android:layout_width="104dp"
+        android:id="@+id/mondayEditTime"
+        android:layout_width="142dp"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/mondayHour"
         android:layout_alignParentEnd="true"
@@ -72,7 +73,7 @@
         android:layout_marginStart="12dp"
         android:layout_marginLeft="12dp"
         android:layout_marginTop="0dp"
-        android:layout_marginEnd="63dp"
+        android:layout_marginEnd="66dp"
         android:layout_marginRight="63dp"
         android:layout_marginBottom="4dp"
         android:layout_toEndOf="@+id/mondayHour"
@@ -93,10 +94,10 @@
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/mondayHour"
         android:layout_alignBottom="@+id/mondayHour"
-        android:layout_marginStart="125dp"
-        android:layout_marginLeft="125dp"
-        android:layout_marginTop="-7dp"
-        android:layout_marginBottom="-2dp"
+        android:layout_marginStart="165dp"
+        android:layout_marginLeft="165dp"
+        android:layout_marginTop="-1dp"
+        android:layout_marginBottom="-7dp"
         android:layout_toEndOf="@+id/mondayHour"
         android:layout_toRightOf="@+id/mondayHour"
         android:background="#D81B60"
@@ -112,8 +113,8 @@
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/tuesdayHour"
         android:layout_alignBottom="@+id/tuesdayHour"
-        android:layout_marginStart="125dp"
-        android:layout_marginLeft="125dp"
+        android:layout_marginStart="165dp"
+        android:layout_marginLeft="165dp"
         android:layout_marginTop="-7dp"
         android:layout_marginBottom="-2dp"
         android:layout_toEndOf="@+id/mondayHour"
@@ -131,8 +132,8 @@
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/wednesdayHour"
         android:layout_alignBottom="@+id/wednesdayHour"
-        android:layout_marginStart="125dp"
-        android:layout_marginLeft="125dp"
+        android:layout_marginStart="165dp"
+        android:layout_marginLeft="165dp"
         android:layout_marginTop="-7dp"
         android:layout_marginBottom="-2dp"
         android:layout_toEndOf="@+id/mondayHour"
@@ -150,8 +151,8 @@
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/thursdayHour"
         android:layout_alignBottom="@+id/thursdayHour"
-        android:layout_marginStart="125dp"
-        android:layout_marginLeft="125dp"
+        android:layout_marginStart="165dp"
+        android:layout_marginLeft="165dp"
         android:layout_marginTop="-7dp"
         android:layout_marginBottom="-2dp"
         android:layout_toEndOf="@+id/mondayHour"
@@ -169,8 +170,8 @@
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/fridayHour"
         android:layout_alignBottom="@+id/fridayHour"
-        android:layout_marginStart="125dp"
-        android:layout_marginLeft="125dp"
+        android:layout_marginStart="165dp"
+        android:layout_marginLeft="165dp"
         android:layout_marginTop="-7dp"
         android:layout_marginBottom="-2dp"
         android:layout_toEndOf="@+id/mondayHour"
@@ -184,7 +185,7 @@
 
     <TextView
         android:id="@+id/tuesdayTitle"
-        android:layout_width="130dp"
+        android:layout_width="80dp"
         android:layout_height="42dp"
         android:layout_below="@+id/mondayTitle"
         android:layout_alignParentStart="true"
@@ -195,11 +196,12 @@
         android:text="Tuesday"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textColor="#008577" />
+        android:textColor="#008577"
+        android:textSize="14sp" />
 
     <TextView
         android:id="@+id/tuesdayHour"
-        android:layout_width="90dp"
+        android:layout_width="100dp"
         android:layout_height="42dp"
         android:layout_alignTop="@+id/tuesdayTitle"
         android:layout_marginStart="12dp"
@@ -207,14 +209,14 @@
         android:layout_marginTop="0dp"
         android:layout_toEndOf="@+id/tuesdayTitle"
         android:layout_toRightOf="@+id/tuesdayTitle"
-        android:hint="9:00-17:00"
+        android:hint="09:00-17:00"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textColor="#008577"
         android:textSize="18sp" />
 
     <TextView
         android:id="@+id/wednesdayTitle"
-        android:layout_width="130dp"
+        android:layout_width="80dp"
         android:layout_height="42dp"
         android:layout_below="@+id/tuesdayTitle"
         android:layout_alignParentStart="true"
@@ -225,11 +227,12 @@
         android:text="Wednesday"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textColor="#008577" />
+        android:textColor="#008577"
+        android:textSize="14sp" />
 
     <TextView
         android:id="@+id/wednesdayHour"
-        android:layout_width="90dp"
+        android:layout_width="100dp"
         android:layout_height="42dp"
         android:layout_alignTop="@+id/wednesdayTitle"
         android:layout_marginStart="13dp"
@@ -237,14 +240,14 @@
         android:layout_marginTop="0dp"
         android:layout_toEndOf="@+id/wednesdayTitle"
         android:layout_toRightOf="@+id/wednesdayTitle"
-        android:hint="9:00-17:00"
+        android:hint="09:00-17:00"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textColor="#008577"
         android:textSize="18sp" />
 
     <EditText
-        android:id="@+id/wednesdayEdit"
-        android:layout_width="102dp"
+        android:id="@+id/wednesdayEditTime"
+        android:layout_width="100dp"
         android:layout_height="39dp"
         android:layout_alignTop="@+id/wednesdayHour"
         android:layout_alignBottom="@+id/wednesdayHour"
@@ -266,8 +269,8 @@
         android:textSize="18sp" />
 
     <EditText
-        android:id="@+id/tuesdayEdit"
-        android:layout_width="103dp"
+        android:id="@+id/tuesdayEditTime"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/tuesdayHour"
         android:layout_alignParentEnd="true"
@@ -289,8 +292,8 @@
         android:textSize="18sp" />
 
     <EditText
-        android:id="@+id/thursdayEdit"
-        android:layout_width="102dp"
+        android:id="@+id/thursdayEditTime"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/thursdayHour"
         android:layout_alignParentEnd="true"
@@ -312,8 +315,8 @@
         android:textSize="18sp" />
 
     <EditText
-        android:id="@+id/fridayEdit"
-        android:layout_width="103dp"
+        android:id="@+id/fridayEditTime"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/fridayHour"
         android:layout_alignParentEnd="true"
@@ -336,7 +339,7 @@
 
     <TextView
         android:id="@+id/thursdayTitle"
-        android:layout_width="130dp"
+        android:layout_width="80dp"
         android:layout_height="42dp"
         android:layout_below="@+id/wednesdayTitle"
         android:layout_alignParentStart="true"
@@ -347,11 +350,12 @@
         android:text="Thursday"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textColor="#008577" />
+        android:textColor="#008577"
+        android:textSize="14sp" />
 
     <TextView
         android:id="@+id/thursdayHour"
-        android:layout_width="90dp"
+        android:layout_width="100dp"
         android:layout_height="42dp"
         android:layout_alignTop="@+id/thursdayTitle"
         android:layout_marginStart="13dp"
@@ -359,14 +363,14 @@
         android:layout_marginTop="0dp"
         android:layout_toEndOf="@+id/thursdayTitle"
         android:layout_toRightOf="@+id/thursdayTitle"
-        android:hint="9:00-17:00"
+        android:hint="09:00-17:00"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textColor="#008577"
         android:textSize="18sp" />
 
     <TextView
         android:id="@+id/fridayTitle"
-        android:layout_width="130dp"
+        android:layout_width="80dp"
         android:layout_height="42dp"
         android:layout_below="@+id/thursdayTitle"
         android:layout_alignParentStart="true"
@@ -377,11 +381,12 @@
         android:text="Friday"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textColor="#008577" />
+        android:textColor="#008577"
+        android:textSize="14sp" />
 
     <TextView
         android:id="@+id/fridayHour"
-        android:layout_width="90dp"
+        android:layout_width="100dp"
         android:layout_height="42dp"
         android:layout_alignTop="@+id/fridayTitle"
         android:layout_marginStart="8dp"
@@ -389,30 +394,30 @@
         android:layout_marginTop="-2dp"
         android:layout_toEndOf="@+id/fridayTitle"
         android:layout_toRightOf="@+id/fridayTitle"
-        android:hint="9:00-17:00"
+        android:hint="09:00-17:00"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textColor="#008577"
         android:textSize="18sp" />
 
     <TextView
-        android:id="@+id/textFormat"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/textNote"
+        android:layout_width="229dp"
+        android:layout_height="47dp"
         android:layout_below="@+id/fridayTitle"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="57dp"
-        android:layout_marginLeft="57dp"
-        android:layout_marginTop="35dp"
-        android:layout_marginEnd="39dp"
-        android:layout_marginRight="39dp"
-        android:layout_marginBottom="296dp"
+        android:layout_marginStart="82dp"
+        android:layout_marginLeft="82dp"
+        android:layout_marginTop="14dp"
+        android:layout_marginEnd="100dp"
+        android:layout_marginRight="100dp"
+        android:layout_marginBottom="310dp"
         android:text="Enter time slots in the following format: (####-####) (24-HR Clock)"
         android:textColor="#FC054C63"
-        android:textSize="16sp"
+        android:textSize="14sp"
         android:textStyle="italic" />
 
 </RelativeLayout>

@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".EmployeeServiceView"/>
+        <activity android:name=".PatientLogin"></activity>
+        <activity android:name=".EmployeeServiceView" />
         <activity android:name=".AdminActivity" />
         <activity android:name=".ClinicRegistry" />
         <activity android:name=".EmployeeActivity" />

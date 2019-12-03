@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.view.View;
@@ -99,39 +100,61 @@ public class SignupActivity extends AppCompatActivity {
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
                                 User information = new User(fName, lName, email, phoneNum, password, role);
-                                FirebaseDatabase.getInstance().getReference("User").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(information).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<Void> task) {
-                                        Toast.makeText(SignupActivity.this, "SignUp Complete", Toast.LENGTH_SHORT).show();
-                                        final String uid;
-                                        FirebaseUser user;
-                                        user = FirebaseAuth.getInstance().getCurrentUser();
-                                        uid = user.getUid();
-                                        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("User").child(uid);
-
-                                        reference.addListenerForSingleValueEvent(new ValueEventListener() {
-                                            @Override
-                                            public void onDataChange(DataSnapshot dataSnapshot) {
-                                                final String role= dataSnapshot.child("role").getValue(String.class);
-                                                System.out.println(role);
-                                                if(role.equals("Employee")){
-                                                    Intent i = new Intent(SignupActivity.this, EmployeeActivity.class);
-                                                    startActivity(i);
+                                if(role.equals("Employee")){
+                                    FirebaseDatabase.getInstance().getReference("User").child("Employee").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(information).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            Toast.makeText(SignupActivity.this, "Employee SignUp Complete", Toast.LENGTH_SHORT).show();
+                                            final String uid;
+                                            FirebaseUser user;
+                                            user = FirebaseAuth.getInstance().getCurrentUser();
+                                            uid = user.getUid();
+                                            DatabaseReference reference = FirebaseDatabase.getInstance().getReference("User").child("Employee").child(uid);
+                                            reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                                                @Override
+                                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                                    final String role= dataSnapshot.child("role").getValue(String.class);
+                                                    System.out.println(role);
+                                                    if(role.equals("Employee")){
+                                                        Intent i = new Intent(SignupActivity.this, EmployeeActivity.class);
+                                                        startActivity(i);
+                                                    }
                                                 }
-                                                else{
-                                                    Intent in = new Intent(SignupActivity.this, WelcomeActivity.class);
-                                                    startActivity(in);
+                                                @Override
+                                                public void onCancelled(DatabaseError databaseError) {
+
                                                 }
+                                            });
 
+                                        }
+                                    });
+                                }else{
+                                    FirebaseDatabase.getInstance().getReference("User").child("Patient").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(information).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            Toast.makeText(SignupActivity.this, "Patient SignUp Complete", Toast.LENGTH_SHORT).show();
+                                            final String id;
+                                            FirebaseUser user2;
+                                            user2 = FirebaseAuth.getInstance().getCurrentUser();
+                                            id = user2.getUid();
+                                            DatabaseReference reference2 = FirebaseDatabase.getInstance().getReference("User").child("Patient").child(id);
+                                            reference2.addListenerForSingleValueEvent(new ValueEventListener() {
+                                                @Override
+                                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                                    final String role = dataSnapshot.child("role").getValue(String.class);
+                                                    if (role.equals("Patient")){
+                                                        Intent in = new Intent(SignupActivity.this, WelcomeActivity.class);
+                                                        startActivity(in);
+                                                    }
+                                                }
+                                                @Override
+                                                public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                                            }
-                                            @Override
-                                            public void onCancelled(DatabaseError databaseError) {
-
-                                            }
-                                        });
-                                    }
-                                });
+                                                }
+                                            });
+                                        }
+                                    });
+                                }
 
                             }
                         }

@@ -34,7 +34,7 @@ public class EmployeeActivity extends AppCompatActivity{
         user = FirebaseAuth.getInstance().getCurrentUser();
         uid = user.getUid();
 
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("User").child(uid);
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("User").child("Employee").child(uid);
 
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

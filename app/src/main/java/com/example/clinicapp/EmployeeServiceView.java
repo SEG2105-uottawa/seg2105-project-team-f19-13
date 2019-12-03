@@ -1,50 +1,56 @@
 package com.example.clinicapp;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
+        import androidx.annotation.NonNull;
+        import androidx.appcompat.app.AppCompatActivity;
 
-import android.os.Bundle;
-import android.text.TextUtils;
-import android.view.View;
-import android.widget.Button;
-import android.widget.ListView;
-import android.widget.Toast;
+        import android.os.Bundle;
+        import android.view.ContextMenu;
+        import android.view.MenuInflater;
+        import android.view.MenuItem;
+        import android.view.View;
+        import android.widget.AdapterView;
+        import android.widget.Button;
+        import android.widget.ListView;
+        import android.widget.TextView;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+        import com.google.firebase.auth.FirebaseAuth;
+        import com.google.firebase.auth.FirebaseUser;
+        import com.google.firebase.database.DataSnapshot;
+        import com.google.firebase.database.DatabaseError;
+        import com.google.firebase.database.DatabaseReference;
+        import com.google.firebase.database.FirebaseDatabase;
+        import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
-import java.util.List;
+        import org.w3c.dom.Text;
+
+        import java.util.ArrayList;
+        import java.util.List;
 
 public class EmployeeServiceView extends AppCompatActivity {
-    Button addServiceBtn, deleteServiceBtn;
-    DatabaseReference databaseReference, dbr;
-    List<Service> services, employeeservices;
+    TextView addServiceTxt;
+    DatabaseReference databaseReference, dbr, database;
+    List<Service> services;
     ListView adminListView, employeeListView;
+    List<Service> employeeservices;
+    String currentClinicID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_employee_service_view);
-        addServiceBtn = (Button) findViewById(R.id.addServiceBtn);
-        deleteServiceBtn = (Button) findViewById(R.id.deleteServiceBtn);
+        addServiceTxt = (TextView) findViewById(R.id.addServiceTxt);
         adminListView = (ListView) findViewById(R.id.adminListView);
         employeeListView = (ListView) findViewById(R.id.employeeListView);
 
         services = new ArrayList<>();
         employeeservices = new ArrayList<>();
         databaseReference = FirebaseDatabase.getInstance().getReference("Service");
-        dbr = FirebaseDatabase.getInstance().getReference("ClinicService");
+        dbr = FirebaseDatabase.getInstance().getReference("Clinic");
+        //String key = dbr.push().getKey();
 
-        addServiceBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                addEmployeeService(); //Add method of addService
-            }
-        });
+        //database = FirebaseDatabase.getInstance().getReference("Clinic").child(currentClinicID);
+        registerForContextMenu((adminListView));
+        registerForContextMenu((employeeListView));
 
     }
     @Override
@@ -65,16 +71,36 @@ public class EmployeeServiceView extends AppCompatActivity {
 
             }
         });
-        dbr.addValueEventListener(new ValueEventListener() {
+        //get clinicid
+        final String uid;
+        FirebaseUser user;
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        uid = user.getUid();
+        database = FirebaseDatabase.getInstance().getReference("User").child("Employee").child(uid);
+        database.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                employeeservices.clear();
-                for(DataSnapshot postSnapshot: dataSnapshot.getChildren()){
-                    Service service = postSnapshot.getValue(Service.class);
-                    employeeservices.add(service);
-                }
-                ServiceList servicesAdapter = new ServiceList(EmployeeServiceView.this, employeeservices);
-                employeeListView.setAdapter(servicesAdapter);
+                final String clinicid = dataSnapshot.child("clinicID").getValue(String.class);
+                currentClinicID = clinicid;
+                System.out.println(currentClinicID);
+                database = FirebaseDatabase.getInstance().getReference("Clinic").child(currentClinicID).child("Service");
+                database.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        employeeservices.clear();
+                        for(DataSnapshot postSnapshot: dataSnapshot.getChildren()){
+                            Service service = postSnapshot.getValue(Service.class);
+                            employeeservices.add(service);
+                        }
+                        ServiceList servicesAdapter = new ServiceList(EmployeeServiceView.this, employeeservices);
+                        employeeListView.setAdapter(servicesAdapter);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -82,11 +108,47 @@ public class EmployeeServiceView extends AppCompatActivity {
             }
         });
     }
-    //private boolean deleteEmployeeService(String id) {
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        if (v.getId()==R.id.adminListView) { //For first listview
+            MenuInflater inflater = getMenuInflater();
+            inflater.inflate(R.menu.adminmenu, menu);
 
-    //}
-
-    private void addEmployeeService() {
-
+        }
+        if (v.getId()==R.id.employeeListView) { //For second listview
+            MenuInflater inflater = getMenuInflater();
+            getMenuInflater().inflate(R.menu.employeemenu, menu);
+        }
     }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        int index = info.position; //Use this for getting the list item value
+        View view = info.targetView;
+
+        switch(item.getItemId()) {
+            case R.id.addServ:
+                addEmployeeService(index);
+                return true;
+
+            case R.id.DeleteServ:
+                deleteEmployeeService(index);
+                return true;
+
+            default:
+                return super.onContextItemSelected(item);
+        }
+    }
+    private void addEmployeeService(int pos) {
+        Service service= services.get(pos);
+        String id = service.getId();
+        database.child(id).setValue(service);
+    }
+    private void deleteEmployeeService(int pos) {
+        Service service= employeeservices.get(pos);
+        String id = service.getId();
+        database.child(id).removeValue();
+    }
+
 }
