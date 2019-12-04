@@ -18,32 +18,12 @@
         android:textSize="28sp" />
 
     <Button
-        android:id="@+id/serviceSearch"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:background="@drawable/button_rounded"
-        android:text="Search Available Clinic By Service"
-        android:textColor="#ffffff"
-        android:textSize="22sp" />
-
-    <Button
         android:id="@+id/addressSearch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
         android:background="@drawable/button_rounded"
         android:text="Search Available Clinic By Address"
-        android:textColor="#ffffff"
-        android:textSize="22sp" />
-
-    <Button
-        android:id="@+id/myBookings"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:background="@drawable/button_rounded"
-        android:text="My Bookings"
         android:textColor="#ffffff"
         android:textSize="22sp" />
 

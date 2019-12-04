@@ -19,7 +19,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 public class WelcomeActivity extends AppCompatActivity {
-    Button logoutBtn;
+    Button logoutBtn, addressSearch, serviceSearch;
     TextView welcomeText;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +52,7 @@ public class WelcomeActivity extends AppCompatActivity {
 
 
 
+        addressSearch = (Button)findViewById(R.id.addressSearch);
 
         logoutBtn = (Button)findViewById(R.id.logoutBtn);
 
@@ -61,6 +62,17 @@ public class WelcomeActivity extends AppCompatActivity {
                 FirebaseAuth.getInstance().signOut();
                 Intent intoMain = new Intent(WelcomeActivity.this, MainActivity.class);
                 startActivity(intoMain);
+            }
+        });
+
+
+
+        addressSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(WelcomeActivity.this, ServiceSearch.class);
+                startActivity(i);
+
             }
         });
     }

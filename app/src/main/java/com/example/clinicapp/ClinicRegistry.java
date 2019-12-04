@@ -73,7 +73,7 @@ public class ClinicRegistry extends AppCompatActivity {
                     clinic.setInsuranceType(cinsuranceType);
                     String mGroupId = databaseReference.push().getKey();
 
-                    databaseReference.child(mGroupId).child("Info").setValue(clinic);
+                    databaseReference.child(mGroupId).setValue(clinic);
                     Toast.makeText(ClinicRegistry.this, "Clinic Registry Complete", Toast.LENGTH_SHORT).show();
 
                     databaseReference = FirebaseDatabase.getInstance().getReference("User");

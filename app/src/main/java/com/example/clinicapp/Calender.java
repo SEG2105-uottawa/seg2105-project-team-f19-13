@@ -69,7 +69,7 @@ public class Calender extends AppCompatActivity{
                         final String wednesdayHourTime = dataSnapshot.child("Wednesday").child("hour").getValue(String.class);
                         final String thursdayHourTime = dataSnapshot.child("Thursday").child("hour").getValue(String.class);
                         final String fridayHourTime = dataSnapshot.child("Friday").child("hour").getValue(String.class);
-                        if(!(mondayHourTime.equals("") && tuesdayHourTime.equals("") && wednesdayHourTime.equals("") && thursdayHourTime.equals("") && fridayHourTime.equals(""))){
+                        if(!((mondayHourTime == "") && (tuesdayHourTime == "") && (wednesdayHourTime == "") && (thursdayHourTime == "") && (fridayHourTime == ""))){
                             mondayHour.setText(mondayHourTime);
                             tuesdayHour.setText(tuesdayHourTime);
                             wednesdayHour.setText(wednesdayHourTime);
